@@ -1,0 +1,12 @@
+[contenteditable] {
+    padding: 10px;
+    border: dotted 1px #aaa;
+}
+[contenteditable] > div {
+    margin: 10px 0;
+}
+[contenteditable] strong {
+    font-weight: normal;
+    background: white;
+    color: white;
+}

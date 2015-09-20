@@ -1,0 +1,166 @@
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+
+</head>
+<body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<div id="ce" contenteditable>There is nothing more BS than prepositions, definite articles, and indefinite articles in the English language. Cut the filler. Use this field to eliminate them altogether. Highlight text to bring them back (if you must.)</div>
+
+<p><a href="javascript:void(0);" onclick="$('#ce').html('');">clear</a></p>
+	<script>
+var changed,
+    lastValue = '',
+    div = $('#ce'),
+    words = ['a', 'abaft', 'abeam', 'aboard', 'about', 'above', 'absent',
+'across',
+'afore',
+'after',
+'against',
+'along',
+'alongside',
+'amid',
+'amidst',
+'among',
+'amongst',
+'an',
+'anenst',
+'apropos',
+'apud',
+'around',
+'as',
+'aside',
+'astride',
+'at',
+'athwart',
+'atop',
+'barring',
+'before',
+'behind',
+'below',
+'beneath',
+'beside',
+'besides',
+'between',
+'beyond',
+'but',
+'by',
+'chez',
+'circa',
+'concerning',
+'despite',
+'down',
+'during',
+'except',
+'excluding',
+'failing',
+'following',
+'for',
+'forenenst',
+'from',
+'given',
+'in',
+'including',
+'inside',
+'into',
+'like',
+'mid',
+'midst',
+'minus',
+'modulo',
+'near',
+'next',
+'notwithstanding',
+'of',
+'off',
+'on',
+'onto',
+'opposite',
+'out',
+'outside',
+'over',
+'pace',
+'past',
+'per',
+'plus',
+'pro',
+'qua',
+'regarding',
+'round',
+'sans',
+'save',
+'since',
+'than',
+'through, thru (informal)',
+'throughout',
+'till',
+'times',
+'to',
+'toward',
+'towards',
+'under',
+'underneath',
+'unlike',
+'until',
+'unto',
+'up',
+'upon',
+'versus',
+'via',
+'vice',
+'with',
+'within',
+'without', 'worth'];
+
+function markWords() {
+    var html = div.html().replace(/<\/?strong>/gi, ''),
+        text = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '),
+        exp;
+    $.each(words, function(i, word) {
+        exp = new RegExp('\\b(' + word + ')\\b', 'gi');
+        html = html.replace(exp, function(m) {
+console.log('WORD MATCH:', m);
+            return '<strong>' + m + '</strong>';
+        });
+    });
+    //html = html.replace('&nbsp;', ' ').replace(/\s+/g, ' ');
+console.log('HTML:', html);
+console.log('----');
+    div.html(html);
+}
+
+setInterval(function() {
+    var html = div.html();
+    if ( lastValue != html && html ) {
+//console.log(lastValue);
+//console.log(html);
+//console.log('----');
+        lastValue = html;
+        markWords();
+        setEndOfContenteditable(div[0]);
+    }
+}, 500);
+
+function setEndOfContenteditable(contentEditableElement)
+{
+    var range,selection;
+    if(document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
+    {
+        range = document.createRange();//Create a range (a range is a like the selection but invisible)
+        range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+        selection = window.getSelection();//get the selection object (allows you to change selection)
+        selection.removeAllRanges();//remove any selections already made
+        selection.addRange(range);//make the range you have just created the visible selection
+    }
+    else if(document.selection)//IE 8 and lower
+    { 
+        range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
+        range.moveToElementText(contentEditableElement);//Select the entire contents of the element with the range
+        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+        range.select();//Select the range (make it the visible selection
+    }
+}
+</script>
+</body>
